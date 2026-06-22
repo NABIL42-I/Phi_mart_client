@@ -4,10 +4,13 @@ import { FaMinus, FaPlus } from "react-icons/fa6";
 import useCartContext from "../../hooks/useCartContext";
 
 const AddToCartButton = ({ product }) => {
+
+    
   const [quantity, setQuantity] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
-  const { AddCartItems } = useCartContext();
+    const {AddCartItems} = useCartContext();
+
 
   const decreaseQuantity = () => {
     if (quantity > 1) {
@@ -21,17 +24,40 @@ const AddToCartButton = ({ product }) => {
     }
   };
 
-  const addToCart = async () => {
-    setIsAdding(true);
-    try {
-      await AddCartItems(product.id, quantity);
-      setIsAdded(true);
-      setIsAdding(false);
-    } catch (error) {
-      console.log(error);
-      setIsAdding(false);
-    }
+//   const addToCart = () => {
+//     // Simulate API Call
+//     setIsAdding(true);
+//     setTimeout(() => {
+//       setIsAdding(false);
+//       setIsAdded(true);
+//       setTimeout(() => {
+//         setIsAdded(false);
+//       }, 2000);
+//     }, 1000);
+//   };
+  const addToCart = async() => {
+      setIsAdding(true);
+      try{
+          await AddCartItems(product.id,quantity);
+          console.log("hello",product.id,quantity);
+          setIsAdded(true);
+          setIsAdding(false);
+}
+      catch(error){
+          console.log("Error from AddToCart",error);
+          setIsAdding(false);
+         }
+        finally{
+        setTimeout(() => {
+        setIsAdded(false);
+      }, 2000);
+        }
   };
+
+
+
+  // if (loading) return <div>Loading...</div>;
+  if (!product) return <div>Product Not Found...</div>;
 
   return (
     <div className="space-y-4">

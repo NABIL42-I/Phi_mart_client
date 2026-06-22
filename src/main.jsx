@@ -11,8 +11,8 @@ createRoot(document.getElementById("root")).render(
     <AuthProvider>
       <CartProvider>
         <BrowserRouter>
-          <AppRoutes />
-        </BrowserRouter>
+            <AppRoutes/>
+       </BrowserRouter>
       </CartProvider>
     </AuthProvider>
   </StrictMode>

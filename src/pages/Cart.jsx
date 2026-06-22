@@ -4,102 +4,85 @@ import CartItemList from "../components/Cart/CartItemList";
 import CartSummary from "../components/Cart/CartSummary";
 
 const Cart = () => {
-  const {
-    cart,
-    loading,
-    createOrGetCart,
-    updateCartItemQuantity,
-    deleteCartItems,
-  } = useCartContext();
+  const { cart,cartId, loading, createOrGetCart, updateCartItemQuantity, deleteCartItems } = useCartContext();
 
-  const [localCart, setLocalCart] = useState(cart);
+const [localCart,setLocalcart] = useState(cart);
 
   useEffect(() => {
     if (!cart && !loading) createOrGetCart();
   }, [createOrGetCart, cart, loading]);
 
-  useEffect(() => {
-    setLocalCart(cart);
-  }, [cart]);
+  useEffect(()=>{
+    setLocalcart(cart)
+  },[cart]);
 
   if (loading) return <p>Loading...</p>;
   if (!localCart) return <p>No Cart Found</p>;
 
   const handleUpdateQuantity = async (itemId, newQuantity) => {
-    const prevLocalCartCopy = localCart; // store a copy of localCart
+    const prevLocalCartCopy = localCart; // Store a copy of localCart
 
-    setLocalCart((prevLocalCart) => {
-      const updatedItmes = prevLocalCart.items.map((item) =>
-        item.id === itemId
-          ? {
-              ...item,
-              quantity: newQuantity,
-              total_price: item.product.price * newQuantity,
-            }
-          : item
-      );
-
-      return {
+    setLocalcart((prevLocalCart)=>{
+    const updateItems = prevLocalCart.items.map((item)=>item.id===itemId
+    ?{
+        ...item,quantity:newQuantity,
+        total_price:item.product.price*newQuantity,
+    }:item
+    );
+    return{
         ...prevLocalCart,
-        items: updatedItmes,
-        total_price: updatedItmes.reduce(
-          (sum, item) => sum + item.total_price,
-          0
-        ),
-      };
+        items:updateItems,
+        total_price:updateItems.reduce((sum,item)=>sum+item.total_price,0),
+    };
     });
 
     try {
       await updateCartItemQuantity(itemId, newQuantity);
     } catch (error) {
       console.log(error);
-      setLocalCart(prevLocalCartCopy); // Rollback to previous state if API fails
+      setLocalcart(prevLocalCartCopy); // Rollback to previous state if API fails
     }
   };
 
-  const handleRemoveItem = async (itemId) => {
-    setLocalCart((prevLocalCart) => {
-      const updatedItems = prevLocalCart.items.filter(
-        (item) => item.id != itemId
-      );
+  const handleRemoveItem = async(itemId)=>{
+    setLocalcart((prevLocalCart)=>{ 
+        const updateItems = prevLocalCart.items.filter((item)=>item.id!=itemId);
 
-      return {
+    return{
         ...prevLocalCart,
-        items: updatedItems,
-        total_price: updatedItems.reduce(
-          (sum, item) => sum + item.total_price,
-          0
-        ),
-      };
-    });
+        items: updateItems,
+        total_price: updateItems.reduce((sum,item)=>sum+item.total_price,0),
+    };
+  });
 
     try {
-      await deleteCartItems(itemId);
-    } catch (error) {
-      console.log(error);
+        await deleteCartItems(itemId);
+    }catch(error){
+        console.log(error);
     }
   };
 
+
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div>
-          <Suspense fallback={<p>Loading...</p>}>
-            <CartItemList
-              items={localCart.items}
-              handleUpdateQuantity={handleUpdateQuantity}
-              handleRemoveItem={handleRemoveItem}
-            />
-          </Suspense>
-        </div>
-        <div>
-          <CartSummary
-            totalPrice={localCart.total_price}
-            itemCount={localCart.items.length}
+ <div className="container mx-auto px-4 py-8">
+       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div>
+        <Suspense fallback={<p>Loading Fallback...</p>}>
+          <CartItemList
+            items={localCart.items}
+            handleUpdateQuantity={handleUpdateQuantity}
+            handleRemoveItem={handleRemoveItem}
           />
-        </div>
+        </Suspense>
+      </div>
+      <div>
+        <CartSummary 
+         totalPrice={localCart.total_price}
+         itemCount={localCart.items.length}
+         cartId={cartId}/>
       </div>
     </div>
+ </div>
   );
 };
 

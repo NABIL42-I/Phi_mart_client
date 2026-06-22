@@ -2,12 +2,9 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import authApiClient from "../services/auth-api-client";
 
 const useCart = () => {
-  // 1. Safe parsing (No more null crash)
-  const [authToken] = useState(() => {
-    const tokens = localStorage.getItem("authTokens");
-    return tokens ? JSON.parse(tokens)?.access : null;
-  });
-  
+  const [authToken] = useState(
+    () => JSON.parse(localStorage.getItem("authTokens"))?.access
+  );
   const [cart, setCart] = useState(null);
   const [cartId, setCartId] = useState(() => localStorage.getItem("cartId"));
   const [loading, setLoading] = useState(false);
@@ -19,16 +16,15 @@ const useCart = () => {
   const createOrGetCart = useCallback(async () => {
     setLoading(true);
     try {
-      // If we already have a cartId stored, fetch that specific cart instead of creating a new one
-      // (Adjust this endpoint URL depending on your actual backend API design)
-      const url = cartId ? `/carts/${cartId}/` : "/carts/";
-      const response = await authApiClient.post(url);
-      
-      const newCartId = response.data.id;
-      localStorage.setItem("cartId", newCartId);
-      setCartId(newCartId);
+      console.log("hell0",authToken);
+      // console.log("hell0",authToken);
+      const response = await authApiClient.post("/carts/");
+      if (!cartId) { 
+        localStorage.setItem("cartId", response.data.id);
+        setCartId(response.data.id);
+      }
       setCart(response.data);
-      return newCartId;
+      // console.log("this is from cart",response.data);
     } catch (error) {
       console.error("Cart initialization failed:", error);
       return null;
@@ -57,8 +53,7 @@ const useCart = () => {
           product_id,
           quantity,
         });
-        // Optional: Refresh cart data after adding an item
-        // await createOrGetCart(); 
+        // console.log("from addcartitem",product_id,quantity);
         return response.data;
       } catch (error) {
         console.error("Error adding Items", error);
@@ -76,23 +71,22 @@ const useCart = () => {
       try {
         await authApiClient.patch(`/carts/${cartId}/items/${itemId}/`, { quantity });
       } catch (error) {
-        console.error("Error updating cart items", error);
-      }
+        console.log("Error updating cart items", error);
+      } 
     },
     [cartId]
   );
 
   // Delete Cart Items
   const deleteCartItems = useCallback(
-    async (itemId) => {
-      if (!cartId) return;
-      try {
-        await authApiClient.delete(`/carts/${cartId}/items/${itemId}/`);
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    [cartId]
+    async(itemId)=>{
+        try{
+            await authApiClient.delete(`/carts/${cartId}/items/${itemId}/`);
+        }
+        catch(error){
+            console.log(error);
+        }
+    },[cartId]
   );
 
   // 2. FIXED: Run ONLY ONCE when the component mounts
@@ -107,6 +101,7 @@ const useCart = () => {
 
   return {
     cart,
+    cartId,
     loading,
     createOrGetCart,
     AddCartItems,

@@ -3,7 +3,7 @@ import { FaRegTrashAlt } from "react-icons/fa";
 const CartItemList = ({ items, handleUpdateQuantity, handleRemoveItem }) => {
   if (items?.length === 0) {
     return (
-      <div className="py-6 text-center text-gray-500">Your cart is empty</div>
+      <div className="py-6 text-center text-gray-500">Your cart is empty </div>
     );
   }
 
