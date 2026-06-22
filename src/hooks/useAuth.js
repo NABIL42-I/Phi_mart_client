@@ -97,9 +97,11 @@ const useAuth = () => {
         localStorage.setItem("authTokens",JSON.stringify(response.data));
         // After login set user
         await fetchUserProfile();
+        return {success:true};
         }
     catch(error){
         setErrorMsg(error.response.data?.detail);
+        return {success:false};
         }
     };
 
@@ -133,6 +135,7 @@ const useAuth = () => {
     setAuthTokens(null);
     setUser(null);
     localStorage.removeItem("authTokens");
+    localStorage.removeItem("cartId");
   }
 
 

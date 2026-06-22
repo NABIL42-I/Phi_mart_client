@@ -4,6 +4,8 @@ import { FaMinus, FaPlus } from "react-icons/fa6";
 import useCartContext from "../../hooks/useCartContext";
 
 const AddToCartButton = ({ product }) => {
+
+    
   const [quantity, setQuantity] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
@@ -37,6 +39,7 @@ const AddToCartButton = ({ product }) => {
       setIsAdding(true);
       try{
           await AddCartItems(product.id,quantity);
+          console.log("hello",product.id,quantity);
           setIsAdded(true);
           setIsAdding(false);
 }
@@ -50,6 +53,11 @@ const AddToCartButton = ({ product }) => {
       }, 2000);
         }
   };
+
+
+
+  // if (loading) return <div>Loading...</div>;
+  if (!product) return <div>Product Not Found...</div>;
 
   return (
     <div className="space-y-4">

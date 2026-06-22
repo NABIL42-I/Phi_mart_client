@@ -1,9 +1,9 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import authApiClient from "../services/auth-api-client";
 
 const useCart = () => {
   const [authToken] = useState(
-    () => JSON.parse(localStorage.getItem("authTokens")).access
+    () => JSON.parse(localStorage.getItem("authTokens"))?.access
   );
   const [cart, setCart] = useState(null);
   const [cartId, setCartId] = useState(() => localStorage.getItem("cartId"));
@@ -13,13 +13,15 @@ const useCart = () => {
   const createOrGetCart = useCallback(async () => {
     setLoading(true);
     try {
-      console.log(authToken);
+      console.log("hell0",authToken);
+      // console.log("hell0",authToken);
       const response = await authApiClient.post("/carts/");
-      if (!cartId) {
+      if (!cartId) { 
         localStorage.setItem("cartId", response.data.id);
         setCartId(response.data.id);
       }
       setCart(response.data);
+      // console.log("this is from cart",response.data);
     } catch (error) {
       console.log(error);
     } finally {
@@ -37,6 +39,7 @@ const useCart = () => {
           product_id,
           quantity,
         });
+        // console.log("from addcartitem",product_id,quantity);
         return response.data;
       } catch (error) {
         console.log("Error adding Items", error);
@@ -71,10 +74,20 @@ const useCart = () => {
             console.log(error);
         }
     },[cartId]
-  )
+  );
+
+  useEffect(() => {
+    const initializeCart = async () => {
+      setLoading(true);
+      await createOrGetCart();
+      setLoading(false);
+    };
+    initializeCart();
+  }, [createOrGetCart]);
 
   return {
     cart,
+    cartId,
     loading,
     createOrGetCart,
     AddCartItems,

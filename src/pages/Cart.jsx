@@ -4,7 +4,7 @@ import CartItemList from "../components/Cart/CartItemList";
 import CartSummary from "../components/Cart/CartSummary";
 
 const Cart = () => {
-  const { cart, loading, createOrGetCart, updateCartItemQuantity, deleteCartItems } =useCartContext();
+  const { cart,cartId, loading, createOrGetCart, updateCartItemQuantity, deleteCartItems } = useCartContext();
 
 const [localCart,setLocalcart] = useState(cart);
 
@@ -16,13 +16,26 @@ const [localCart,setLocalcart] = useState(cart);
     setLocalcart(cart)
   },[cart]);
 
+  if (loading) return <p>Loading...</p>;
+  if (!localCart) return <p>No Cart Found</p>;
+
   const handleUpdateQuantity = async (itemId, newQuantity) => {
     const prevLocalCartCopy = localCart; // Store a copy of localCart
-    setLocalcart((prevLocalCart)=>({
+
+    setLocalcart((prevLocalCart)=>{
+    const updateItems = prevLocalCart.items.map((item)=>item.id===itemId
+    ?{
+        ...item,quantity:newQuantity,
+        total_price:item.product.price*newQuantity,
+    }:item
+    );
+    return{
         ...prevLocalCart,
-        items:prevLocalCart.items.map((item)=>
-            item.id === itemId ? {...item,quantity:newQuantity}:item),
-    }))
+        items:updateItems,
+        total_price:updateItems.reduce((sum,item)=>sum+item.total_price,0),
+    };
+    });
+
     try {
       await updateCartItemQuantity(itemId, newQuantity);
     } catch (error) {
@@ -32,10 +45,16 @@ const [localCart,setLocalcart] = useState(cart);
   };
 
   const handleRemoveItem = async(itemId)=>{
-    setLocalcart((prevLocalCart)=>({
+    setLocalcart((prevLocalCart)=>{ 
+        const updateItems = prevLocalCart.items.filter((item)=>item.id!=itemId);
+
+    return{
         ...prevLocalCart,
-        items: prevLocalCart.items.filter((item)=>item.id!=itemId),
-    }));
+        items: updateItems,
+        total_price: updateItems.reduce((sum,item)=>sum+item.total_price,0),
+    };
+  });
+
     try {
         await deleteCartItems(itemId);
     }catch(error){
@@ -43,10 +62,10 @@ const [localCart,setLocalcart] = useState(cart);
     }
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (!localCart) return <p>No Cart Found</p>;
+
   return (
-    <div className="flex justify-between">
+ <div className="container mx-auto px-4 py-8">
+       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       <div>
         <Suspense fallback={<p>Loading Fallback...</p>}>
           <CartItemList
@@ -56,8 +75,14 @@ const [localCart,setLocalcart] = useState(cart);
           />
         </Suspense>
       </div>
-      {/* <div><CartSummary/></div> */}
+      <div>
+        <CartSummary 
+         totalPrice={localCart.total_price}
+         itemCount={localCart.items.length}
+         cartId={cartId}/>
+      </div>
     </div>
+ </div>
   );
 };
 

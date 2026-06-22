@@ -1,9 +1,9 @@
 import { FaRegTrashAlt } from "react-icons/fa";
 
-const CartItemList = ({ items, handleUpdateQuantity,handleRemoveItem }) => {
+const CartItemList = ({ items, handleUpdateQuantity, handleRemoveItem }) => {
   if (items?.length === 0) {
     return (
-      <div className="py-6 text-center text-gray-500">Your cart is empty</div>
+      <div className="py-6 text-center text-gray-500">Your cart is empty </div>
     );
   }
 
@@ -31,9 +31,11 @@ const CartItemList = ({ items, handleUpdateQuantity,handleRemoveItem }) => {
                   <div className="flex items-center join">
                     <button
                       onClick={() =>
-                        handleUpdateQuantity(item.id, Math.max(1,item.quantity - 1))
+                        handleUpdateQuantity(
+                          item.id,
+                          Math.max(1, item.quantity - 1)
+                        )
                       }
-                      disabled={item.quantity<=1}
                       className="btn btn-xs btn-outline join-item"
                     >
                       -
@@ -43,7 +45,7 @@ const CartItemList = ({ items, handleUpdateQuantity,handleRemoveItem }) => {
                       min="1"
                       value={item.quantity}
                       onChange={(e) =>
-                        handleUpdateQuantity(item.id, Math.max(e.target.value,1))
+                        handleUpdateQuantity(item.id, e.target.value)
                       }
                       className="input input-xs input-bordered join-item w-12 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
@@ -61,8 +63,8 @@ const CartItemList = ({ items, handleUpdateQuantity,handleRemoveItem }) => {
                 <td>
                   <button
                     className="btn btn-ghost btn-xs btn-circle"
-                    aria-label={`Remove ${item.product.name} from cart`}
-                    onClick={()=>handleRemoveItem(item.id)}
+                    aria-label={`Remove ${item.name} from cart`}
+                    onClick={() => handleRemoveItem(item.id)}
                   >
                     <FaRegTrashAlt className="h-4 w-4" />
                   </button>
