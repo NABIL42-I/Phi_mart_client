@@ -6,7 +6,7 @@ const Category = () => {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    apiClient.get("/categories").then((res) => setCategories(res.data));
+    apiClient.get("/categories/").then((res) => setCategories(res.data));
   }, []);
   return (
     <section className="py-12 px-4 max-w-7xl mx-auto">
