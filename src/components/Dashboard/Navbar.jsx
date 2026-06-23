@@ -22,7 +22,7 @@ const Navbar = ({ sidebarOpen }) => {
             <div className="w-10 rounded-full">
               <img
                 alt="User avatar"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                src=""
               />
             </div>
           </label>
@@ -31,16 +31,16 @@ const Navbar = ({ sidebarOpen }) => {
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <Link href="/profile" className="justify-between">
+              <Link href="/dashboard/profile" className="justify-between">
                 Profile
                 <span className="badge">New</span>
               </Link>
             </li>
             <li>
-              <Link href="/settings">Settings</Link>
+              <Link href="/UnderContruction">Settings</Link>
             </li>
             <li>
-              <button>Logout</button>
+              <Link to="/logout">Logout</Link>
             </li>
           </ul>
         </div>

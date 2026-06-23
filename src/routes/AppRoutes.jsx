@@ -15,6 +15,8 @@ import Cart from "../pages/Cart";
 import Orders from "../pages/Orders";
 import PaymentSuccess from "../pages/PaymentSuccess";
 import AddProduct from "../pages/AddProduct";
+import UnderConstruction from "../pages/UnderConstruction";
+import Logout from "../pages/Logout";
 
 const AppRoutes = () => {
   return (
@@ -26,6 +28,7 @@ const AppRoutes = () => {
         <Route path="about" element={<About />} />
         <Route path="shop" element={<Shop />} />
         <Route path="login" element={<Login />} />
+        <Route path="logout" element={<Logout />} />
         <Route path="register" element={<Register />} />
         <Route path="activate/:uid/:token" element={<ActivateAccount />} />
         <Route path="shop/:productId" element={<ProductDetail />} />
@@ -48,7 +51,13 @@ const AppRoutes = () => {
         <Route path="payment/success/" element={<PaymentSuccess />} />
         <Route path="products/add" element={<AddProduct />} />
       </Route>
+
+    {/* // Default Single Path */}
+    <Route path="UnderConstruction" element={<UnderConstruction />} />
+
     </Routes>
+
+    
   );
 };
 
