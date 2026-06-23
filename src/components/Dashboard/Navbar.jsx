@@ -37,7 +37,7 @@ const Navbar = ({ sidebarOpen }) => {
               </Link>
             </li>
             <li>
-              <Link href="/UnderContruction">Settings</Link>
+              <Link to="/UnderConstruction">Settings</Link>
             </li>
             <li>
               <Link to="/logout">Logout</Link>

@@ -5,6 +5,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import { Suspense, useEffect, useState } from "react";
 import apiClient from "../services/api-client";
 import ReviewSection from "../components/Reviews/ReviewSection";
+import Loading from "../components/Loading";
 
 const ProductDetail = () => {
   const [product, setProduct] = useState(null);
@@ -20,8 +21,19 @@ const ProductDetail = () => {
     });
   }, [productId]);
 
-  if (loading) return <div>Loading...</div>;
+
+// Loading Status
+  if (loading) {
+  return (
+    <Loading/>
+  )
+  }
+
+
   if (!product) return <div>Product Not Found...</div>;
+
+
+
 
   return (
     <div className="w-3/4 mx-auto px-4 py-8">

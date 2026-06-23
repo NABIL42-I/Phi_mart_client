@@ -39,7 +39,7 @@ const AddToCartButton = ({ product }) => {
       setIsAdding(true);
       try{
           await AddCartItems(product.id,quantity);
-          console.log("hello",product.id,quantity);
+          console.log("ProductDetails",product.id,quantity);
           setIsAdded(true);
           setIsAdding(false);
 }
