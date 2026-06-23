@@ -16,8 +16,28 @@ const [localCart,setLocalcart] = useState(cart);
     setLocalcart(cart)
   },[cart]);
 
-  if (loading) return <p>Loading...</p>;
-  if (!localCart) return <p>No Cart Found</p>;
+
+  if (loading) {
+     return (
+    <div className="flex flex-col justify-center items-center p-24 space-y-4 min-h-[40vh]">
+      {/* Premium Dual-Tone Spinner Ring */}
+      <div className="relative w-12 h-12">
+        <div className="absolute inset-0 rounded-full border-4 border-gray-100"></div>
+        <div className="absolute inset-0 rounded-full border-4 border-gray-900 border-t-transparent animate-spin"></div>
+      </div>
+      
+      {/* Animated Subtext */}
+      <p className="text-gray-400 font-medium text-sm tracking-wide animate-pulse">
+        Syncing Cart...
+      </p>
+    </div>
+  );
+  }
+
+  if (!localCart) return <p>No Cart Found or Reload the Page</p>;
+
+
+
 
   const handleUpdateQuantity = async (itemId, newQuantity) => {
     const prevLocalCartCopy = localCart; // Store a copy of localCart

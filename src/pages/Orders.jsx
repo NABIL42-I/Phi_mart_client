@@ -1,16 +1,25 @@
-
 import { useEffect, useState } from "react";
 import OrderCard from "../components/Orders/OrderCard";
 import authApiClient from "../services/auth-api-client";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
+  const [loading,setLoading] = useState(false);
 
   useEffect(() => {
-    authApiClient.get("/orders/").then((res) => setOrders(res.data));
+    setLoading(true);
+    authApiClient.get("/orders/").then((res) => {
+      // Sort orders descending (Newest first)
+      const sortedOrders = res.data.sort((a, b) => 
+        new Date(b.created_at) - new Date(a.created_at)
+      );
+      setOrders(sortedOrders);
+    });
+    setLoading(false);
   }, []);
 
   const handleCancelOrder = async (orderId) => {
+    setLoading(true);
     try {
       const response = await authApiClient.post(`/orders/${orderId}/cancel/`);
       console.log(response);
@@ -23,6 +32,9 @@ const Orders = () => {
       }
     } catch (error) {
       console.log(error);
+    }
+    finally{
+      setLoading(false);
     }
   };
 
@@ -37,37 +49,3 @@ const Orders = () => {
 };
 
 export default Orders;
-
-
-// [
-//   {
-//     "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//     "user": 0,
-//     "status": "Not Paid",
-//     "total_price": 0,
-//     "created_at": "2026-06-19T07:01:17.396Z",
-//     "items": [
-//       {
-//         "id": 0,
-//         "product": {
-//           "id": 0,
-//           "name": "string",
-//           "price": 0
-//         },
-//         "price": 0,
-//         "quantity": 2147483647,
-//         "total_price": 0
-//       },
-//       {
-//         "id": 0,
-//         "product": {
-//           "id": 0,
-//           "name": "string",
-//           "price": 0
-//         },
-//         "price": 0,
-//         "quantity": 2147483647,
-//         "total_price": 0
-//       },
-//     ]
-//   }]

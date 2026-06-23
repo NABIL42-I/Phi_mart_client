@@ -1,6 +1,8 @@
 import { Link } from "react-router"; // or wherever your routing stems from
+import useAuthContext from "../hooks/useAuthContext";
 
 const NavbarDropdown = () => {
+  const {user} = useAuthContext();
   return (
     <div className="dropdown dropdown-bottom dropdown-start relative">
       {/* 🍔 Trigger Button: Modernized Ghost styling */}
@@ -27,12 +29,43 @@ const NavbarDropdown = () => {
             to="/new-arrivals" 
             className="flex items-center justify-between font-semibold px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-900 active:bg-slate-100 transition-colors"
           >
-            <span>✨ New Arrivals</span>
+            <span>✨ New Arrival</span>
             <span className="text-[10px] uppercase font-black tracking-wider px-1.5 py-0.5 rounded-md bg-amber-400 text-slate-950">New</span>
           </Link>
         </li>
 
-        {/* Section 2: Nested Submenu */}
+        {/* Section 2: Hot Link */}
+          {user &&
+                  <li className="mb-1">
+                    <Link 
+                      to="/dashboard" 
+                      className="flex items-center justify-between font-semibold px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-900 active:bg-slate-100 transition-colors"
+                    >
+                      <span className="inline-flex items-center gap-2.5  text-gray-900 tracking-tight hover:opacity-90 transition-opacity">
+                        {/* Modern Bento Grid / Dashboard Metric SVG Icon */}
+                        <svg 
+                          className="w-5 h-5 text-gray-900" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          strokeWidth="2" 
+                          viewBox="0 0 24 24"
+                        >
+                          <path 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round" 
+                            d="M4 5a1 1 0 011-1h4a1 1 0 011 1v5a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v2a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3zM14 14a1 1 0 011-1h4a1 1 0 011 1v5a1 1 0 01-1 1h-4a1 1 0 01-1-1v-5z" 
+                          />
+                        </svg>
+                        
+                        <span className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700 bg-clip-text text-transparent">
+                          My Dashboard
+                        </span>
+                      </span>
+                    </Link>
+                  </li>
+          }
+
+        {/* Section 3: Nested Submenu */}
         <li className="mb-1">
           <div className="collapse collapse-arrow bg-transparent rounded-xl px-0 py-0">
             <input type="checkbox" className="min-h-0 h-full w-full absolute top-0 left-0 opacity-0 z-10 peer cursor-pointer" />
@@ -59,7 +92,7 @@ const NavbarDropdown = () => {
           </div>
         </li>
 
-        {/* Section 3: Clean Primary Call to Action */}
+        {/* Section 4: Clean Primary Call to Action */}
         <li className="border-t border-slate-100 mt-2 pt-2">
           <Link 
             to="/shop" 
