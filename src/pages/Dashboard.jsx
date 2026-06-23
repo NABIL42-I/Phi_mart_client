@@ -12,10 +12,12 @@ import useAuthContext from "../hooks/useAuthContext";
 
 export default function Dashboard() {
 
-  const {user}=useAuthContext
+  const {user}=useAuthContext();
 
   // 💡 Naming convention: Use camelCase for state variables (orders instead of Orders)
   const [orders, setOrders] = useState([]);
+
+  console.log("user is staff",user);
 
   const fetchOrderList = async () => {
     try {
@@ -49,7 +51,6 @@ useEffect(() => {
   setTotalItems(cnt);
 }, [orders]); // Runs every time 'orders' changes (like after fetching from your API)
 
-    
   return (
     <div className="space-y-8"> {/* Added spacing between the stats grid and the table */}
       
