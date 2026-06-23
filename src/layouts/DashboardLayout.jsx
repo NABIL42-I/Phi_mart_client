@@ -23,7 +23,7 @@ const DashboardLayout = () => {
         {/* Page content */}
         <div className="drawer-content flex flex-col">
             {/* Navbar */}
-            <Navbar sidebarOpen = {sidebarOpen}/>
+            <Navbar sidebarOpen = {sidebarOpen} toggleSidebar={setSidebarOpen}/>
 
             {/* Main content */}
             <main className="p-6">

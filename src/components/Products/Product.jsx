@@ -28,7 +28,7 @@ const Product = () => {
       <div className="flex justify-between items-center  mb-4">
         <h2 className="text-3xl md:text-4xl font-bold">Trending Products</h2>
         <a
-          href="#"
+          href="/shop"
           className="btn btn-secondary px-6 py-6 rounded-full text-lg"
         >
           View All
@@ -44,6 +44,7 @@ const Product = () => {
 
       {error && <ErroAlert error={error} />}
       {/* Product Slider  */}
+      
       {!isLoading && !error && products.length > 0 && (
         <Swiper
           modules={[Navigation]}
@@ -70,6 +71,8 @@ const Product = () => {
           ))}
         </Swiper>
       )}
+
+
       {!isLoading && !error && products.length === 0 && (
         <p className="text-center text-gray-500 mt-6">No Products Available</p>
       )}
