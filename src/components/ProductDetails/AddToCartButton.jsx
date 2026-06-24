@@ -7,7 +7,7 @@ import { Link } from "react-router";
 
 const AddToCartButton = ({ product }) => {
 
-  const {user} = useAuthContext
+  const {user} = useAuthContext();
   const [quantity, setQuantity] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
