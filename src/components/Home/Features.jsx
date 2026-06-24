@@ -1,45 +1,63 @@
-import { FaShoppingCart } from "react-icons/fa";
-import { MdVerified } from "react-icons/md";
-import { FaTags } from "react-icons/fa";
-import { BsShieldLock } from "react-icons/bs";
+import { FiTruck, FiShield, FiTag, FiCheckCircle } from "react-icons/fi";
 
 const Features = () => {
   const features = [
     {
-      icon: <FaShoppingCart className="text-red-400 text-4xl" />,
+      icon: <FiTruck className="w-5 h-5" />,
       title: "Free Delivery",
-      description:
-        "Get your orders delivered at no extra cost, fast and hassle-free.",
+      description: "Get your orders delivered at no extra cost, fast and hassle-free.",
+      colorClass: "text-amber-600 bg-amber-50 border-amber-100/70",
+      hoverClass: "group-hover:bg-amber-600 group-hover:text-white"
     },
     {
-      icon: <MdVerified className="text-red-400 text-4xl" />,
+      icon: <FiCheckCircle className="w-5 h-5" />,
       title: "Quality Guarantee",
-      description:
-        "We ensure top-notch quality for every product you purchase.",
+      description: "We ensure top-notch premium quality for every product you purchase.",
+      colorClass: "text-emerald-600 bg-emerald-50 border-emerald-100/70",
+      hoverClass: "group-hover:bg-emerald-600 group-hover:text-white"
     },
     {
-      icon: <FaTags className="text-red-400 text-4xl" />,
+      icon: <FiTag className="w-5 h-5" />,
       title: "Daily Offers",
-      description: "Exclusive discounts and special deals available every day.",
+      description: "Exclusive luxury discounts and special deals available every single day.",
+      colorClass: "text-rose-600 bg-rose-50 border-rose-100/70",
+      hoverClass: "group-hover:bg-rose-600 group-hover:text-white"
     },
     {
-      icon: <BsShieldLock className="text-red-400 text-4xl" />,
-      title: "100% Secure Payment",
-      description:
-        "Your payment information is encrypted and completely secure.",
+      icon: <FiShield className="w-5 h-5" />,
+      title: "Secure Payment",
+      description: "Your payment information is globally encrypted and completely secure.",
+      colorClass: "text-blue-600 bg-blue-50 border-blue-100/70",
+      hoverClass: "group-hover:bg-blue-600 group-hover:text-white"
     },
   ];
 
   return (
-    <section className="px-8 py-15">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
-        {features.map((feature, index) => (
-          <div key={index} className="flex flex-col items-center text-center">
-            {feature.icon}
-            <h3 className="text-lg font-semibold mt-2">{feature.title}</h3>
-            <p className="text-gray-500 text-sm">{feature.description}</p>
-          </div>
-        ))}
+    <section className="bg-white py-16 md:py-24 w-full overflow-hidden">
+      <div className="px-4 max-w-7xl mx-auto w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+          {features.map((feature, index) => (
+            <div 
+              key={index} 
+              className="group flex flex-col items-start text-left p-8 rounded-xl border border-gray-100/80 bg-[#FBFBFA]/40 hover:bg-white hover:border-gray-200 hover:shadow-xs transition-all duration-300 ease-out"
+            >
+              {/* Micro-Interaction Colorful Icon Capsule */}
+              <div className={`p-3.5 rounded-xl border mb-6 flex items-center justify-center shadow-2xs transform group-hover:scale-105 group-hover:-translate-y-0.5 transition-all duration-300 ease-out ${feature.colorClass} ${feature.hoverClass}`}>
+                {feature.icon}
+              </div>
+              
+              {/* Premium Bold Heading */}
+              <h3 className="text-lg font-bold text-gray-900 tracking-tight mb-2 group-hover:text-gray-700 transition-colors duration-200">
+                {feature.title}
+              </h3>
+              
+              {/* Body Text */}
+              <p className="text-xs text-gray-400 font-medium tracking-wide leading-relaxed max-w-[90%]">
+                {feature.description}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

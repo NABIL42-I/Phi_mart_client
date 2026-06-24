@@ -18,6 +18,7 @@ import AddProduct from "../pages/AddProduct";
 import UnderConstruction from "../pages/UnderConstruction";
 import Logout from "../pages/Logout";
 import DeliveredProducts from "../pages/DeliveredProducts";
+import Categories from "../pages/Categories";
 
 
 const AppRoutes = () => {
@@ -34,6 +35,7 @@ const AppRoutes = () => {
         <Route path="register" element={<Register />} />
         <Route path="activate/:uid/:token" element={<ActivateAccount />} />
         <Route path="shop/:productId" element={<ProductDetail />} />
+        <Route path="categories" element={<Categories/>} />
       </Route>
 
 
